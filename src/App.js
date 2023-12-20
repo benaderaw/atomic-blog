@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 import Header from "./components/Header";
@@ -13,8 +13,11 @@ export function createRandomPost() {
   };
 }
 
+// Context
+const PostContext = createContext();
+
 // APP
-function App() {
+export default function App() {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 10 }, () => createRandomPost())
   );
@@ -48,25 +51,33 @@ function App() {
   );
 
   return (
-    <section>
-      <button
-        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        className="btn-fake-dark-mode"
-      >
-        {isFakeDark ? "☀️" : "🌙"}
-      </button>
+    <PostContext.Provider
+      value={{
+        post: searchedPosts,
+        onClearPosts: handleClearPosts,
+        onAddPost: handleAddPost,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
+      <section>
+        <button
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+          className="btn-fake-dark-mode"
+        >
+          {isFakeDark ? "☀️" : "🌙"}
+        </button>
 
-      <Header
-        posts={searchedPosts}
-        onClearPosts={handleClearPosts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <Main posts={searchedPosts} onAddPost={handleAddPost} />
-      <Archive onAddPost={handleAddPost} />
-      <Footer />
-    </section>
+        <Header
+          posts={searchedPosts}
+          onClearPosts={handleClearPosts}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <Main posts={searchedPosts} onAddPost={handleAddPost} />
+        <Archive onAddPost={handleAddPost} />
+        <Footer />
+      </section>
+    </PostContext.Provider>
   );
 }
-
-export default App;
