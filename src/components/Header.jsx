@@ -1,24 +1,23 @@
 import Results from "./Results";
 import SearchPosts from "./SearchPosts";
+import { usePosts } from "../App-v1";
 
-export default function Header({
-  posts,
-  onClearPosts,
-  searchQuery,
-  setSearchQuery,
-}) {
+export default function Header() {
+  const { setPosts } = usePosts();
+
+  function handleClearPosts() {
+    setPosts([]);
+  }
+
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results posts={posts} />
-        <SearchPosts
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-        <button onClick={onClearPosts}>Clear posts</button>
+        <Results />
+        <SearchPosts />
+        <button onClick={handleClearPosts}>Clear posts</button>
       </div>
     </header>
   );

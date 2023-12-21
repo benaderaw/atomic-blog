@@ -14,7 +14,7 @@ export function createRandomPost() {
 }
 
 // Context
-const PostContext = createContext();
+export const PostContext = createContext();
 
 // APP
 export default function App() {
@@ -53,7 +53,7 @@ export default function App() {
   return (
     <PostContext.Provider
       value={{
-        post: searchedPosts,
+        posts: searchedPosts,
         onClearPosts: handleClearPosts,
         onAddPost: handleAddPost,
         searchQuery,
@@ -68,14 +68,9 @@ export default function App() {
           {isFakeDark ? "☀️" : "🌙"}
         </button>
 
-        <Header
-          posts={searchedPosts}
-          onClearPosts={handleClearPosts}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-        <Main posts={searchedPosts} onAddPost={handleAddPost} />
-        <Archive onAddPost={handleAddPost} />
+        <Header />
+        <Main />
+        <Archive />
         <Footer />
       </section>
     </PostContext.Provider>

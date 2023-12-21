@@ -1,4 +1,8 @@
-export default function List({ posts }) {
+import { usePosts } from "../App-v1";
+
+export default function List() {
+  const { posts } = usePosts();
+
   return (
     <ul>
       {posts.map((post, i) => (
